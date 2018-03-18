@@ -29,8 +29,6 @@ namespace sendAllPdfofRep2Mail
                 Environment.Exit(0);
             }
 
-            
-
             SendMailconfig smc = new SendMailconfig();
             XmlSerializer xs = new XmlSerializer(typeof(SendMailconfig));//pour serialiser en XML la config
 
@@ -61,6 +59,7 @@ namespace sendAllPdfofRep2Mail
             MailMessage mail = new MailMessage();
             mail.Sender = new MailAddress("jcbillard@arterris.fr");
             mail.To.Add(new MailAddress("jcbillard@arterris.fr"));
+
             SmtpClient client = new SmtpClient();
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -80,7 +79,29 @@ namespace sendAllPdfofRep2Mail
                 File.AppendAllText(AppDirectory + "log.txt", sb.ToString());
 
             }
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (SmtpFailedRecipientsException sfre )
+            {
+
+                throw;
+            }
+            catch (SmtpException se)
+            {
+
+                throw;
+            }
+            catch (ObjectDisposedException ode)
+            {
+
+                throw;
+            }
+
            
+
         }
     }
 
